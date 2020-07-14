@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.koushik.simplemvp.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements MainView {
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private MainPresenter presenter;
+    List<ItemModel> itemlist= new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +33,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.list);
         progressBar = findViewById(R.id.progress);
+        findViewById(R.id.additem).setOnClickListener(v -> addItem());
         presenter = new MainPresenter(this, new FindItemsInteractor());
+    }
+
+    private void addItem() {
+        presenter.addItem(itemlist);
     }
 
     @Override
@@ -64,17 +72,16 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
-        recyclerView.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void hideProgress() {
         progressBar.setVisibility(View.INVISIBLE);
-        recyclerView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void setItems(List<ItemModel> items) {
+        itemlist=items;
         recyclerView.setAdapter(new MainAdapter(items, presenter::onItemClicked));
     }
 

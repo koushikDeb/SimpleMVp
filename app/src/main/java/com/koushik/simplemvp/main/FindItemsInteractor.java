@@ -29,17 +29,13 @@ public class FindItemsInteractor {
         void onFinished(List<ItemModel> items);
     }
 
-    public void findItems(final OnFinishedListener listener) {
-        new Handler().postDelayed(() -> listener.onFinished(createArrayList()), 2000);
+    public void findItems(final OnFinishedListener listener,List<ItemModel> list) {
+        new Handler().postDelayed(() -> listener.onFinished(getResponseList(list)), 2000);
     }
 
-    private List<ItemModel> createArrayList() {
-        return Arrays.asList(
-                new ItemModel("Item 1"),
-                new ItemModel("Item 2"),
-                new ItemModel("Item 3"),
-                new ItemModel("Item 4")
+    private List<ItemModel> getResponseList(List<ItemModel> list) {
 
-        );
+         list.add(new ItemModel("Item "+(list.size()+1)));
+         return list;
     }
 }

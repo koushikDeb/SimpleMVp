@@ -16,10 +16,9 @@ class MainPresenter {
 
     void onResume() {
         if (mainView != null) {
-            mainView.showProgress();
+           //write on resume operation
         }
 
-        findItemsInteractor.findItems(this::onFinished);
     }
 
     void onItemClicked(String item) {
@@ -41,5 +40,10 @@ class MainPresenter {
 
     public MainView getMainView() {
         return mainView;
+    }
+
+    public void addItem(List<ItemModel> itemlist) {
+        mainView.showProgress();
+        findItemsInteractor.findItems(this::onFinished,itemlist);
     }
 }
